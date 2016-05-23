@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter4j.HashtagEntity;
 import twitter4j.TwitterException;
+import ua.nure.sentiment.entity.Sentiment;
 import ua.nure.sentiment.entity.Tweet;
 import ua.nure.sentiment.service.DictionarySentimentService;
 import ua.nure.sentiment.service.SparkSentimentService;
@@ -12,8 +13,14 @@ import ua.nure.sentiment.service.CoreSentimentAnalysisService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+import static ua.nure.sentiment.util.DateUtil.getDayOfWeek;
 
 @Component
 public class TwitterFacade {
@@ -31,7 +38,7 @@ public class TwitterFacade {
     private SparkSentimentService sparkSentimentService;
 
     public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException {
-        return twitterService.getTweets(tags, count).stream()
+        return twitterService.getTweetsForWeek(tags, count).stream()
                 .map(status -> {
                     Tweet tweet = new Tweet();
                     tweet.setId(status.getId());
@@ -43,9 +50,27 @@ public class TwitterFacade {
                     tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
                     tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
                     tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
+                    tweet.setSentiment(getSentiment());
                     return tweet;
                 })
                 .collect(toList());
+    }
+
+    public Map<Integer, Long> groupTweetsByDayOfWeek(List<Tweet> tweets, Sentiment sentiment) {
+        return tweets.stream()
+                .filter(tw -> sentiment.equals(tw.getSentiment()))
+                .map(tw -> getDayOfWeek(tw.getCreatedAt()))
+                .collect(groupingBy(identity(), counting()));
+    }
+
+    public Map<Sentiment, Long> groupTweetsBySentiment(List<Tweet> tweets) {
+        return tweets.stream().map(Tweet::getSentiment).collect(groupingBy(identity(), counting()));
+    }
+
+    private Sentiment getSentiment() {
+        if (new Random().nextBoolean())
+            return Sentiment.NEGATIVE;
+        else return Sentiment.POSITIVE;
     }
 
 

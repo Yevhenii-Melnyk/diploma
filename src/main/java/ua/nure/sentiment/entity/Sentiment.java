@@ -1,5 +1,7 @@
 package ua.nure.sentiment.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Sentiment {
 
     NEGATIVE(-1, "Negative"),
@@ -10,6 +12,7 @@ public enum Sentiment {
 
     private String text;
 
+    @JsonValue
     public String getText() {
         return text;
     }
@@ -30,5 +33,11 @@ public enum Sentiment {
         else if (value < 0)
             result = NEGATIVE;
         return result;
+    }
+
+
+    @Override
+    public String toString() {
+        return text;
     }
 }
