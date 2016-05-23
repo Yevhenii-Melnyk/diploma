@@ -29,4 +29,6 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-jetty")
     testCompile("junit:junit")
+    compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.4'
+
 }
