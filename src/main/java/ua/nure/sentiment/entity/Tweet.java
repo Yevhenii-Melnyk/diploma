@@ -11,6 +11,15 @@ public class Tweet {
     private int retweetCount;
     private List<String> hashTags;
     private String userName;
+    private Sentiment sentiment;
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
+    }
 
     public long getId() {
         return id;

@@ -6,6 +6,7 @@ import twitter4j.HashtagEntity;
 import twitter4j.TwitterException;
 import ua.nure.sentiment.entity.Tweet;
 import ua.nure.sentiment.service.TwitterService;
+import ua.nure.sentiment.util.SentimentAnalysisService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,9 @@ public class TwitterFacade {
     @Autowired
     private TwitterService twitterService;
 
+    @Autowired
+    private SentimentAnalysisService sentimentAnalysisService;
+
     public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException {
         return twitterService.getTweets(tags, count).stream()
                 .map(status -> {
@@ -28,6 +32,7 @@ public class TwitterFacade {
                     tweet.setRetweetCount(status.getRetweetCount());
                     tweet.setText(status.getText());
                     tweet.setUserName(status.getUser().getScreenName());
+                    tweet.setSentiment(sentimentAnalysisService.detectSentiment(status.getText()));
                     return tweet;
                 })
                 .collect(toList());

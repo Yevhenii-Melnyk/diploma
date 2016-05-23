@@ -23,7 +23,6 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
@@ -31,6 +30,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jetty")
     testCompile("junit:junit")
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.4'
+    compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '6.0.0'
+    compile group: 'edu.stanford.nlp', name: 'stanford-corenlp', version: '3.6.0'
+    compile group: 'edu.stanford.nlp', name: 'stanford-corenlp', version: '3.6.0', classifier: 'models'
 
 }
 
