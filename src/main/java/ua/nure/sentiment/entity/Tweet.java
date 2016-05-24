@@ -11,14 +11,36 @@ public class Tweet {
     private int retweetCount;
     private List<String> hashTags;
     private String userName;
-    private Sentiment sentiment;
+    private Sentiment coreSentiment;
+    private Sentiment dictionarySentiment;
+    private Sentiment logisticSentiment;
 
     public Sentiment getSentiment() {
-        return sentiment;
+        return Sentiment.convert(coreSentiment.getValue() + dictionarySentiment.getValue() + logisticSentiment.getValue());
     }
 
-    public void setSentiment(Sentiment sentiment) {
-        this.sentiment = sentiment;
+    public Sentiment getLogisticSentiment() {
+        return logisticSentiment;
+    }
+
+    public void setLogisticSentiment(Sentiment logisticSentiment) {
+        this.logisticSentiment = logisticSentiment;
+    }
+
+    public Sentiment getDictionarySentiment() {
+        return dictionarySentiment;
+    }
+
+    public void setDictionarySentiment(Sentiment dictionarySentiment) {
+        this.dictionarySentiment = dictionarySentiment;
+    }
+
+    public Sentiment getCoreSentiment() {
+        return coreSentiment;
+    }
+
+    public void setCoreSentiment(Sentiment coreSentiment) {
+        this.coreSentiment = coreSentiment;
     }
 
     public long getId() {

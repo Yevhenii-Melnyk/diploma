@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 import twitter4j.HashtagEntity;
 import twitter4j.TwitterException;
 import ua.nure.sentiment.entity.Tweet;
+import ua.nure.sentiment.service.DictionarySentimentService;
+import ua.nure.sentiment.service.SparkSentimentService;
 import ua.nure.sentiment.service.TwitterService;
-import ua.nure.sentiment.util.SentimentAnalysisService;
+import ua.nure.sentiment.service.CoreSentimentAnalysisService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +22,13 @@ public class TwitterFacade {
     private TwitterService twitterService;
 
     @Autowired
-    private SentimentAnalysisService sentimentAnalysisService;
+    private CoreSentimentAnalysisService coreSentimentAnalysisService;
+
+    @Autowired
+    private DictionarySentimentService dictionarySentimentService;
+
+    @Autowired
+    private SparkSentimentService sparkSentimentService;
 
     public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException {
         return twitterService.getTweets(tags, count).stream()
@@ -32,7 +40,9 @@ public class TwitterFacade {
                     tweet.setRetweetCount(status.getRetweetCount());
                     tweet.setText(status.getText());
                     tweet.setUserName(status.getUser().getScreenName());
-                    tweet.setSentiment(sentimentAnalysisService.detectSentiment(status.getText()));
+                    tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
+                    tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
+                    tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
                     return tweet;
                 })
                 .collect(toList());

@@ -4,11 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import twitter4j.*;
-import ua.nure.sentiment.service.TwitterService;
-import ua.nure.sentiment.util.SentimentAnalysisService;
-
-import java.util.Arrays;
-import java.util.List;
 
 @SpringBootApplication
 public class SpringBootMain {

@@ -1,4 +1,4 @@
-package ua.nure.sentiment.util;
+package ua.nure.sentiment.service;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
@@ -12,12 +12,18 @@ import org.springframework.stereotype.Component;
 import ua.nure.sentiment.entity.Sentiment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
+import static ua.nure.sentiment.util.TextCleaner.cleanTweet;
+
 @Component
-public class SentimentAnalysisService {
+public class CoreSentimentAnalysisService {
 
     public Sentiment detectSentiment(String message) {
+        message = Arrays.stream(cleanTweet(message)).collect(joining(" "));
+
         StanfordCoreNLP pipeline = getCoreNLP();
 
         List<Integer> sentiments = new ArrayList<>();
@@ -52,10 +58,16 @@ public class SentimentAnalysisService {
         double weightedSentiment = weightedSentiments.stream().mapToDouble(Integer::doubleValue).sum() /
                 sizes.stream().mapToInt(Integer::intValue).sum();
 
-//        System.out.println(averageSentiment);
-//        System.out.println(weightedSentiment);
-//        System.out.println(mainSentiment);
-        return Sentiment.convert(weightedSentiment);
+        //System.out.println(averageSentiment);
+        //System.out.println(weightedSentiment);
+        //System.out.println(mainSentiment);
+
+        Sentiment result = Sentiment.NEUTRAL;
+        if (weightedSentiment > 2)
+            result = Sentiment.POSITIVE;
+        else if (weightedSentiment < 1)
+            result = Sentiment.NEGATIVE;
+        return result;
     }
 
     @Lookup

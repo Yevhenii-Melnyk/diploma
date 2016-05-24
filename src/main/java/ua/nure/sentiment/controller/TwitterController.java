@@ -19,7 +19,7 @@ public class TwitterController {
 
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public List<Tweet> searchTweets(@RequestParam("tags") List<String> tags) throws TwitterException {
-        List<Tweet> tweets = twitterFacade.getTweets(tags, 100);
+        List<Tweet> tweets = twitterFacade.getTweets(tags, 10);
         return tweets;
     }
 

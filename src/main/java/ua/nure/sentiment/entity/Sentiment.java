@@ -2,35 +2,33 @@ package ua.nure.sentiment.entity;
 
 public enum Sentiment {
 
-    NOT_UNDERSTOOD(-1, -1, "Not understood"),
-    VERY_NEGATIVE(0, 1, "Very negative"),
-    NEGATIVE(1, 2, "Negative"),
-    NEUTRAL(2, 3, "Neutral"),
-    POSITIVE(3, 4, "Positive"),
-    VERY_POSITIVE(4, 5, "Very positive");
+    NEGATIVE(-1, "Negative"),
+    NEUTRAL(0, "Neutral"),
+    POSITIVE(1, "Positive");
 
-    private int from;
-    private int to;
+    private int value;
+
     private String text;
 
     public String getText() {
         return text;
     }
 
-    Sentiment(int from, int to, String text) {
-        this.from = from;
-        this.to = to;
+    public int getValue() {
+        return value;
+    }
+
+    Sentiment(int value, String text) {
+        this.value = value;
         this.text = text;
     }
 
-    public static Sentiment convert(double value) {
-        Sentiment result = NOT_UNDERSTOOD;
-        for (Sentiment sentiment : values()) {
-            if (value >= sentiment.from && value <= sentiment.to) {
-                result = sentiment;
-                break;
-            }
-        }
+    public static Sentiment convert(int value) {
+        Sentiment result = NEUTRAL;
+        if (value > 0)
+            result = POSITIVE;
+        else if (value < 0)
+            result = NEGATIVE;
         return result;
     }
 }
