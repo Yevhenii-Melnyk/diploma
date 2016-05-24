@@ -10,6 +10,7 @@ import ua.nure.sentiment.facade.TwitterFacade;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin
@@ -19,7 +20,8 @@ public class TwitterController {
     private TwitterFacade twitterFacade;
 
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public FastSearchDto searchTweets(@RequestParam("tags") List<String> tags) throws TwitterException {
+    public FastSearchDto searchTweets(@RequestParam("tags") List<String> tags)
+            throws TwitterException, ExecutionException, InterruptedException {
         List<Tweet> tweets = twitterFacade.getTweets(tags, 100);
         Map<Integer, Long> positiveTweetsByDay = twitterFacade.groupTweetsByDayOfWeek(tweets, Sentiment.POSITIVE);
         Map<Integer, Long> negativeTweetsByDay = twitterFacade.groupTweetsByDayOfWeek(tweets, Sentiment.NEGATIVE);

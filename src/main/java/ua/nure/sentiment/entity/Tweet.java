@@ -14,9 +14,16 @@ public class Tweet {
     private Sentiment coreSentiment;
     private Sentiment dictionarySentiment;
     private Sentiment logisticSentiment;
+    private Sentiment sentiment;
 
     public Sentiment getSentiment() {
+        if (sentiment != null)
+            return sentiment;
         return Sentiment.convert(coreSentiment.getValue() + dictionarySentiment.getValue() + logisticSentiment.getValue());
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
     }
 
     public Sentiment getLogisticSentiment() {

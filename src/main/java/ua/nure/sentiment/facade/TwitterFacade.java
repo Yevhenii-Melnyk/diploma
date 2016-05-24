@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
@@ -37,8 +39,11 @@ public class TwitterFacade {
     @Autowired
     private SparkSentimentService sparkSentimentService;
 
-    public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException {
-        return twitterService.getTweetsForWeek(tags, count).stream()
+    @Autowired
+    private ForkJoinPool searchPool;
+
+    public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException, ExecutionException, InterruptedException {
+        return searchPool.submit(() -> twitterService.getTweetsForWeek(tags, count).parallelStream()
                 .map(status -> {
                     Tweet tweet = new Tweet();
                     tweet.setId(status.getId());
@@ -46,14 +51,14 @@ public class TwitterFacade {
                     tweet.setHashTags(Arrays.stream(status.getHashtagEntities()).map(HashtagEntity::getText).collect(toList()));
                     tweet.setRetweetCount(status.getRetweetCount());
                     tweet.setText(status.getText());
-                    tweet.setUserName(status.getUser().getScreenName());
+                    tweet.setUserName(status.getUser().getName());
                     tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
                     tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
                     tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
-                    tweet.setSentiment(getSentiment());
+                    //tweet.setSentiment(getSentiment());
                     return tweet;
-                })
-                .collect(toList());
+                }).collect(toList()))
+                .get();
     }
 
     public Map<Integer, Long> groupTweetsByDayOfWeek(List<Tweet> tweets, Sentiment sentiment) {
