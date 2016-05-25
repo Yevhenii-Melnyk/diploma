@@ -15,6 +15,15 @@ public class Tweet {
     private Sentiment dictionarySentiment;
     private Sentiment logisticSentiment;
     private Sentiment sentiment;
+    private Country country;
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 
     public Sentiment getSentiment() {
         if (sentiment != null)

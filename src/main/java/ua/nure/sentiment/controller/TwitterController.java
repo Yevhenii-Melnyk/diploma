@@ -3,9 +3,7 @@ package ua.nure.sentiment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import twitter4j.TwitterException;
-import ua.nure.sentiment.entity.FastSearchDto;
-import ua.nure.sentiment.entity.Sentiment;
-import ua.nure.sentiment.entity.Tweet;
+import ua.nure.sentiment.entity.*;
 import ua.nure.sentiment.facade.TwitterFacade;
 
 import java.util.List;
@@ -28,5 +26,11 @@ public class TwitterController {
         Map<Sentiment, Long> tweetsBySentiment = twitterFacade.groupTweetsBySentiment(tweets);
         return new FastSearchDto(tweets, negativeTweetsByDay, positiveTweetsByDay, tweetsBySentiment, tweets.size());
     }
+
+    @RequestMapping(value = "geo", method = RequestMethod.POST)
+    public List<Tweet> geoSearch(@RequestBody GeoSearchDto dto) throws ExecutionException, InterruptedException {
+        return twitterFacade.getGeoTweets(dto.getTags(), dto.getCountries(), 20);
+    }
+
 
 }
