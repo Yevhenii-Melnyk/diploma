@@ -7,6 +7,7 @@ import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import ua.nure.sentiment.entity.Country;
+import ua.nure.sentiment.entity.CountrySentiment;
 import ua.nure.sentiment.entity.Sentiment;
 import ua.nure.sentiment.entity.Tweet;
 import ua.nure.sentiment.service.DictionarySentimentService;
@@ -70,6 +71,19 @@ public class TwitterFacade {
 
     public Map<Sentiment, Long> groupTweetsBySentiment(List<Tweet> tweets) {
         return tweets.stream().map(Tweet::getSentiment).collect(groupingBy(identity(), counting()));
+    }
+
+    public List<CountrySentiment> getCountrySentiment(List<Tweet> tweets) {
+        return tweets.stream().collect(groupingBy(Tweet::getCountry))
+                .entrySet().stream().map(entry -> {
+                    CountrySentiment countrySentiment = new CountrySentiment();
+                    countrySentiment.setCountry(entry.getKey());
+                    Map<Sentiment, Long> collect = entry.getValue().stream().collect(groupingBy(Tweet::getSentiment, counting()));
+                    countrySentiment.setNegative(collect.getOrDefault(Sentiment.NEGATIVE, 0L));
+                    countrySentiment.setNeutral(collect.getOrDefault(Sentiment.NEUTRAL, 0L));
+                    countrySentiment.setPositive(collect.getOrDefault(Sentiment.POSITIVE, 0L));
+                    return countrySentiment;
+                }).collect(toList());
     }
 
     public List<Tweet> getGeoTweets(List<String> tags, List<Country> locs, int count)

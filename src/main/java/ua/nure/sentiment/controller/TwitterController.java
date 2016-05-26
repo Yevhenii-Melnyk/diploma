@@ -28,8 +28,9 @@ public class TwitterController {
     }
 
     @RequestMapping(value = "geo", method = RequestMethod.POST)
-    public List<Tweet> geoSearch(@RequestBody GeoSearchDto dto) throws ExecutionException, InterruptedException {
-        return twitterFacade.getGeoTweets(dto.getTags(), dto.getCountries(), 20);
+    public List<CountrySentiment> geoSearch(@RequestBody GeoSearchDto dto) throws ExecutionException, InterruptedException {
+        List<Tweet> geoTweets = twitterFacade.getGeoTweets(dto.getTags(), dto.getCountries(), 100);
+        return twitterFacade.getCountrySentiment(geoTweets);
     }
 
 

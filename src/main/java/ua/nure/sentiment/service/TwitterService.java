@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 
 import static java.util.stream.Collectors.joining;
 import static ua.nure.sentiment.util.DateUtil.week;
@@ -19,6 +21,9 @@ public class TwitterService {
 
     @Autowired
     private Twitter twitter;
+
+    @Autowired
+    private ForkJoinPool searchPool;
 
     public List<Status> getTweets(List<String> tags, int count) throws TwitterException {
         String queryText = tagsToString(tags);
@@ -45,15 +50,20 @@ public class TwitterService {
         return statuses;
     }
 
-    public Map<Country, List<Status>> getTweetsByGeoLocation(List<String> tags, List<Country> locs, int count) throws TwitterException {
-        Map<Country, List<Status>> statuses = new HashMap<>();
-        for (Country loc : locs) {
+    public Map<Country, List<Status>> getTweetsByGeoLocation(List<String> tags, List<Country> locs, int count) throws TwitterException, ExecutionException, InterruptedException {
+        Map<Country, List<Status>> statuses = new ConcurrentHashMap<>();
+        searchPool.submit(() -> locs.stream().forEach(loc -> {
             Query query = new Query(tagsToString(tags))
                     .lang("en")
                     .geoCode(loc.getLocation(), 500, Query.Unit.km.toString()).count(count);
-            QueryResult result = twitter.search(query);
-            statuses.put(loc, result.getTweets());
-        }
+            QueryResult result = null;
+            try {
+                result = twitter.search(query);
+                statuses.put(loc, result.getTweets());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        })).get();
 
         return statuses;
     }
