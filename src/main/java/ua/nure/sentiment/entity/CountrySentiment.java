@@ -1,13 +1,15 @@
 package ua.nure.sentiment.entity;
 
-import twitter4j.GeoLocation;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CountrySentiment {
 
     private Country country;
-    private long negative;
-    private long positive;
-    private long neutral;
+    private List<Tweet> negative = new ArrayList<>();
+    private List<Tweet> positive = new ArrayList<>();
+    private List<Tweet> neutral = new ArrayList<>();
+    private int totalCount;
 
     public Country getCountry() {
         return country;
@@ -17,27 +19,35 @@ public class CountrySentiment {
         this.country = country;
     }
 
-    public long getNegative() {
-        return negative;
+    public List<Tweet> getNegative() {
+        return negative == null ? new ArrayList<>() : negative;
     }
 
-    public void setNegative(long negative) {
+    public void setNegative(List<Tweet> negative) {
         this.negative = negative;
     }
 
-    public long getNeutral() {
-        return neutral;
+    public List<Tweet> getNeutral() {
+        return neutral == null ? new ArrayList<>() : neutral;
     }
 
-    public void setNeutral(long neutral) {
+    public void setNeutral(List<Tweet> neutral) {
         this.neutral = neutral;
     }
 
-    public long getPositive() {
-        return positive;
+    public List<Tweet> getPositive() {
+        return positive == null ? new ArrayList<>() : positive;
     }
 
-    public void setPositive(long positive) {
+    public void setPositive(List<Tweet> positive) {
         this.positive = positive;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
     }
 }

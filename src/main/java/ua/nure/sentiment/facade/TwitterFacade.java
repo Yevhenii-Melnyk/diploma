@@ -78,10 +78,11 @@ public class TwitterFacade {
                 .entrySet().stream().map(entry -> {
                     CountrySentiment countrySentiment = new CountrySentiment();
                     countrySentiment.setCountry(entry.getKey());
-                    Map<Sentiment, Long> collect = entry.getValue().stream().collect(groupingBy(Tweet::getSentiment, counting()));
-                    countrySentiment.setNegative(collect.getOrDefault(Sentiment.NEGATIVE, 0L));
-                    countrySentiment.setNeutral(collect.getOrDefault(Sentiment.NEUTRAL, 0L));
-                    countrySentiment.setPositive(collect.getOrDefault(Sentiment.POSITIVE, 0L));
+                    countrySentiment.setTotalCount(entry.getValue().size());
+                    Map<Sentiment, List<Tweet>> collect = entry.getValue().stream().collect(groupingBy(Tweet::getSentiment));
+                    countrySentiment.setNegative(collect.get(Sentiment.NEGATIVE));
+                    countrySentiment.setNeutral(collect.get(Sentiment.NEUTRAL));
+                    countrySentiment.setPositive(collect.get(Sentiment.POSITIVE));
                     return countrySentiment;
                 }).collect(toList());
     }

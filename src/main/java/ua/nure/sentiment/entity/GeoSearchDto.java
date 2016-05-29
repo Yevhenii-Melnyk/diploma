@@ -1,8 +1,9 @@
 package ua.nure.sentiment.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GeoSearchDto {
+public class GeoSearchDto implements Serializable {
 
     private List<String> tags;
 

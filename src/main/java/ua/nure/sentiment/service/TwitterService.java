@@ -15,6 +15,7 @@ import java.util.concurrent.ForkJoinPool;
 
 import static java.util.stream.Collectors.joining;
 import static ua.nure.sentiment.util.DateUtil.week;
+import static ua.nure.sentiment.util.DateUtil.weekBefore;
 
 @Component
 public class TwitterService {
@@ -53,7 +54,7 @@ public class TwitterService {
     public Map<Country, List<Status>> getTweetsByGeoLocation(List<String> tags, List<Country> locs, int count) throws TwitterException, ExecutionException, InterruptedException {
         Map<Country, List<Status>> statuses = new ConcurrentHashMap<>();
         searchPool.submit(() -> locs.stream().forEach(loc -> {
-            Query query = new Query(tagsToString(tags))
+            Query query = new Query(tagsToString(tags)).since(weekBefore())
                     .lang("en")
                     .geoCode(loc.getLocation(), 500, Query.Unit.km.toString()).count(count);
             QueryResult result = null;
