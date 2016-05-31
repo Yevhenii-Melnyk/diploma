@@ -12,7 +12,8 @@
             'BlurAdmin.pages.charts',
             'BlurAdmin.pages.maps',
             'BlurAdmin.pages.profile',
-            'BlurAdmin.pages.fastsearch'
+            'BlurAdmin.pages.fastsearch',
+            'BlurAdmin.pages.research'
         ])
         .config(routeConfig);
 

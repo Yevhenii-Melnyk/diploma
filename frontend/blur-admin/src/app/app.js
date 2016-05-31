@@ -14,6 +14,7 @@ angular.module('BlurAdmin', [
     'angular-progress-button-styles',
     'bootstrap-tagsinput',
     'ngLoadingSpinner',
+    'ngStomp',
 
     'BlurAdmin.theme',
     'BlurAdmin.pages',

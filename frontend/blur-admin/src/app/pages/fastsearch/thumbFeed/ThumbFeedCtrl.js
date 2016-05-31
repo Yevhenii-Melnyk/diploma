@@ -5,7 +5,6 @@
         .controller('ThumbFeedCtrl', ThumbFeedCtrl);
 
     function ThumbFeedCtrl($scope) {
-        console.log($scope.type);
         $scope.feed = [];
 
         $scope.expandMessage = function (message) {

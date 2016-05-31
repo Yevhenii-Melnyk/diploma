@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 @Configuration
@@ -36,6 +39,19 @@ public class TwitterConfig {
                 .build();
         TwitterFactory twitterFactory = new TwitterFactory(twitterConfig);
         return twitterFactory.getInstance();
+    }
+
+    @Bean
+    @Scope("prototype")
+    public TwitterStream getTwitterStream() {
+        twitter4j.conf.Configuration twitterConfig = new ConfigurationBuilder()
+                .setDebugEnabled(true)
+                .setOAuthConsumerKey(consumerKey)
+                .setOAuthConsumerSecret(consumerSecret)
+                .setOAuthAccessToken(accessToken)
+                .setOAuthAccessTokenSecret(accessSecret)
+                .build();
+        return new TwitterStreamFactory(twitterConfig).getInstance();
     }
 
     @Bean
