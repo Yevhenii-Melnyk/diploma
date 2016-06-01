@@ -15,42 +15,27 @@
 </div>
 
 <div class="row">
-    <div ba-panel>
-        <section id="cd-timeline" class="cd-container cssanimations" ng-controller="TimelineCtrl">
-
-            <div class="cd-timeline-block">
-                <div class="cd-timeline-img">
-                    <div class="kameleon-icon with-round-bg warning"><img ng-src="{{::( 'Euro-Coin' | kameleonImg )}}">
-                    </div>
-                </div>
-
-                <div class="cd-timeline-content cd-timeline-content-yellow">
-                    <h5>Title of section 1</h5>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum
-                        aut hic quasi
-                        placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui
-                        ut.</p>
-                    <span class="cd-date">Jan 14</span>
-                </div>
+    <div class="col-md-12">
+        <div ba-panel ba-panel-title="Trend" ba-panel-class="with-scroll">
+            <div line-chart
+                 line-data='lineData'
+                 line-xkey='y'
+                 line-ykeys='["a", "b"]'
+                 line-labels='["Serie A", "Serie B"]'
+                 line-colors='colors'>
             </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div ba-panel ba-panel-title="Line" ba-panel-class="with-scroll ">
 
-            <div class="cd-timeline-block">
-                <div class="cd-timeline-img">
-                    <div class="kameleon-icon with-round-bg danger"><img
-                            ng-src="{{::( 'Laptop-Signal' | kameleonImg )}}"></div>
-                </div>
 
-                <div class="cd-timeline-content cd-timeline-content-red">
-                    <h5>Title of section 2</h5>
+            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
+                    chart-legend="true" chart-series="series"></canvas>
 
-                    <p>Donec dapibus at leo eget volutpat. Praesent dolor tellus, ultricies venenatis molestie eu,
-                        luctus eget nibh.
-                        Curabitur ullamcorper eleifend nisl.</p>
-                    <span class="cd-date">Jan 18</span>
-                </div>
-            </div>
 
-        </section>
+        </div>
     </div>
 </div>

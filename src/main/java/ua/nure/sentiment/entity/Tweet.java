@@ -16,6 +16,24 @@ public class Tweet {
     private Sentiment logisticSentiment;
     private Sentiment sentiment;
     private Country country;
+    private String mediaUrl;
+    private String link;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
 
     public Country getCountry() {
         return country;

@@ -33,7 +33,6 @@ public class TwitterService {
         return search.getTweets();
     }
 
-
     public List<Status> getTweetsForWeek(List<String> tags, int count)
             throws TwitterException, ExecutionException, InterruptedException {
         String queryText = tagsToString(tags);
@@ -51,7 +50,8 @@ public class TwitterService {
         return statuses;
     }
 
-    public Map<Country, List<Status>> getTweetsByGeoLocation(List<String> tags, List<Country> locs, int count) throws TwitterException, ExecutionException, InterruptedException {
+    public Map<Country, List<Status>> getTweetsByGeoLocation(List<String> tags, List<Country> locs, int count)
+            throws TwitterException, ExecutionException, InterruptedException {
         Map<Country, List<Status>> statuses = new ConcurrentHashMap<>();
         searchPool.submit(() -> locs.stream().forEach(loc -> {
             Query query = new Query(tagsToString(tags)).since(weekBefore())
@@ -69,9 +69,8 @@ public class TwitterService {
         return statuses;
     }
 
-
     private String tagsToString(List<String> tags) {
-        return tags.stream().map(tag -> "(" + tag + ")").collect(joining(" OR ")) + " -filter:retweets";
+        return tags.stream().map(tag -> "(" + tag + ")").collect(joining(" AND ")) + " -filter:retweets";
     }
 
 }

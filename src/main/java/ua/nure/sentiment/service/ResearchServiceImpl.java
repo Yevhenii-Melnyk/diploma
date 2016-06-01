@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
+import ua.nure.sentiment.converter.TweeterConverter;
 import ua.nure.sentiment.entity.Research;
 import ua.nure.sentiment.entity.Tweet;
 
@@ -27,13 +28,7 @@ public class ResearchServiceImpl implements ResearchService {
     private SimpMessagingTemplate template;
 
     @Autowired
-    private CoreSentimentAnalysisService coreSentimentAnalysisService;
-
-    @Autowired
-    private DictionarySentimentService dictionarySentimentService;
-
-    @Autowired
-    private SparkSentimentService sparkSentimentService;
+    private TweeterConverter tweeterConverter;
 
     @Async
     public void doResearch(List<String> tags, String id) {
@@ -58,9 +53,8 @@ public class ResearchServiceImpl implements ResearchService {
     }
 
     private String tagsToString(List<String> tags) {
-        return tags.stream().map(tag -> "(" + tag + ")").collect(joining(" OR ")) + " -filter:retweets";
+        return tags.stream().map(tag -> "(" + tag + ")").collect(joining(" AND ")) + " -filter:retweets";
     }
-
 
     private class StreamListener implements StatusListener {
 
@@ -74,17 +68,7 @@ public class ResearchServiceImpl implements ResearchService {
 
         @Override
         public void onStatus(Status status) {
-            Tweet tweet = new Tweet();
-            tweet.setId(status.getId());
-            tweet.setCreatedAt(status.getCreatedAt());
-            tweet.setHashTags(Arrays.stream(status.getHashtagEntities()).map(HashtagEntity::getText).collect(toList()));
-            tweet.setRetweetCount(status.getRetweetCount());
-            tweet.setText(status.getText());
-            tweet.setUserName(status.getUser().getName());
-            tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
-            tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
-            tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
-
+            Tweet tweet = tweeterConverter.convert(status);
             tweets.add(tweet);
             template.convertAndSend("/tweet/" + researchId, tweet);
         }

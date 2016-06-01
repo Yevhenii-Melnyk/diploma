@@ -6,6 +6,7 @@ import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import ua.nure.sentiment.converter.TweeterConverter;
 import ua.nure.sentiment.entity.Country;
 import ua.nure.sentiment.entity.CountrySentiment;
 import ua.nure.sentiment.entity.Sentiment;
@@ -32,33 +33,14 @@ public class TwitterFacade {
     private TwitterService twitterService;
 
     @Autowired
-    private CoreSentimentAnalysisService coreSentimentAnalysisService;
-
-    @Autowired
-    private DictionarySentimentService dictionarySentimentService;
-
-    @Autowired
-    private SparkSentimentService sparkSentimentService;
+    private TweeterConverter tweeterConverter;
 
     @Autowired
     private ForkJoinPool searchPool;
 
     public List<Tweet> getTweets(List<String> tags, int count) throws TwitterException, ExecutionException, InterruptedException {
         return searchPool.submit(() -> twitterService.getTweetsForWeek(tags, count).parallelStream()
-                .map(status -> {
-                    Tweet tweet = new Tweet();
-                    tweet.setId(status.getId());
-                    tweet.setCreatedAt(status.getCreatedAt());
-                    tweet.setHashTags(Arrays.stream(status.getHashtagEntities()).map(HashtagEntity::getText).collect(toList()));
-                    tweet.setRetweetCount(status.getRetweetCount());
-                    tweet.setText(status.getText());
-                    tweet.setUserName(status.getUser().getName());
-                    tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
-                    tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
-                    tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
-                    //tweet.setSentiment(getSentiment());
-                    return tweet;
-                }).collect(toList()))
+                .map(status -> tweeterConverter.convert(status)).collect(toList()))
                 .get();
     }
 
@@ -90,29 +72,8 @@ public class TwitterFacade {
     public List<Tweet> getGeoTweets(List<String> tags, List<Country> locs, int count)
             throws ExecutionException, InterruptedException {
         return searchPool.submit(() -> twitterService.getTweetsByGeoLocation(tags, locs, count).entrySet().parallelStream()
-                .flatMap(entry ->
-                        entry.getValue().stream().map(status -> {
-                            Tweet tweet = new Tweet();
-                            tweet.setId(status.getId());
-                            tweet.setCreatedAt(status.getCreatedAt());
-                            tweet.setHashTags(Arrays.stream(status.getHashtagEntities()).map(HashtagEntity::getText).collect(toList()));
-                            tweet.setRetweetCount(status.getRetweetCount());
-                            tweet.setText(status.getText());
-                            tweet.setUserName(status.getUser().getName());
-                            //tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
-                            //tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
-                            //tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
-                            tweet.setSentiment(getSentiment());
-                            tweet.setCountry(entry.getKey());
-                            return tweet;
-                        }))
+                .flatMap(entry -> entry.getValue().stream().map(status -> tweeterConverter.convert(status)))
                 .collect(toList())).get();
-    }
-
-    private Sentiment getSentiment() {
-        if (new Random().nextBoolean())
-            return Sentiment.NEGATIVE;
-        else return Sentiment.POSITIVE;
     }
 
 

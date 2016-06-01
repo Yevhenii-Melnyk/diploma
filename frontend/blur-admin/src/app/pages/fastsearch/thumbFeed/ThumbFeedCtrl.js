@@ -16,6 +16,7 @@
                 return 'thumb-up';
             else if ('Negative' === sentiment)
                 return 'thumb-down';
+            else return 'thumb-neutral';
         }
 
         function getHeader(text) {
@@ -33,6 +34,8 @@
                     text: tweet.text,
                     header: getHeader(tweet.text),
                     time: tweet.createdAt,
+                    img: tweet.mediaUrl,
+                    link: tweet.link,
                     expanded: true
                 });
             });
@@ -51,6 +54,8 @@
                     text: tweet.text,
                     header: getHeader(tweet.text),
                     time: tweet.createdAt,
+                    img: tweet.mediaUrl,
+                    link: tweet.link,
                     expanded: true
                 });
             });

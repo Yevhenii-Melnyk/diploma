@@ -65,6 +65,17 @@
           @include bg-image('theme/icon/feed/thumb-up.svg');
         }
       }
+      &.thumb-neutral {
+        background: #dfb81c;
+        &:after {
+          width: 30px;
+          height: 30px;
+          margin-top: 5px;
+          margin-left: 5px;
+          border-radius: 5px;
+          @include bg-image('/theme/icon/kameleon/Checklist.svg');
+        }
+      }
       &.image-message {
         background: $image-message-color;
         &:after {

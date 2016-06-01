@@ -16,6 +16,10 @@
             'Positive': {
                 color: palette.gossip,
                 highlight: palette.gossipDark
+            },
+            'Neutral': {
+                color: palette.white,
+                highlight: palette.whiteDark
             }
         };
 
@@ -86,8 +90,8 @@
             var ctx = document.getElementById('chart-area').getContext('2d');
             window.myDoughnut = new Chart(ctx).Doughnut(tweets, {
                 segmentShowStroke: false,
-                percentageInnerCutout: 64,
-                responsive: true
+                percentageInnerCutout: 50
+
             });
         }
 
