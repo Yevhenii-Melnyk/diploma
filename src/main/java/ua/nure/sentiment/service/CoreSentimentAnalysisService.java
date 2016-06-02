@@ -65,7 +65,7 @@ public class CoreSentimentAnalysisService {
         Sentiment result = Sentiment.NEUTRAL;
         if (weightedSentiment > 2)
             result = Sentiment.POSITIVE;
-        else if (weightedSentiment < 1)
+        else if (weightedSentiment <= 2)
             result = Sentiment.NEGATIVE;
         return result;
     }

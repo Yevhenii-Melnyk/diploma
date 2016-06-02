@@ -15,11 +15,18 @@
 
         $scope.$on('searchEvent', function (event, data) {
             $scope.data = [[], []];
-            for (var key in data.negativeTweetsByDay) {
-                $scope.data[0].push(data.negativeTweetsByDay[key]);
+            var keys = [1, 2, 3, 4, 5, 6, 7];
+            for (var key in keys) {
+                var dayData = data.negativeTweetsByDay[key];
+                if (!dayData)
+                    dayData = 0;
+                $scope.data[1].push(dayData);
             }
-            for (var key in data.positiveTweetsByDay) {
-                $scope.data[1].push(data.positiveTweetsByDay[key]);
+            for (var key in keys) {
+                var dayData = data.positiveTweetsByDay[key];
+                if (!dayData)
+                    dayData = 0;
+                $scope.data[0].push(dayData);
             }
         });
     }

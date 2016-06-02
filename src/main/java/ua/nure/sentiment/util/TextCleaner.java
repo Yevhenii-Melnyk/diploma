@@ -27,7 +27,8 @@ public class TextCleaner {
      */
     private static String normalizeCurrencySymbol(String text) {
         String regex = "[\\$\\€\\£]";
-        return applyNormalizationTemplate(text, regex, " normalizedcurrencysymbol ");
+        //return applyNormalizationTemplate(text, regex, " normalizedcurrencysymbol ");
+        return applyNormalizationTemplate(text, regex, " ");
     }
 
     /**
@@ -36,7 +37,8 @@ public class TextCleaner {
      */
     private static String normalizeNumbers(String text) {
         String regex = "\\d+";
-        return applyNormalizationTemplate(text, regex, " normalizednumber ");
+        //return applyNormalizationTemplate(text, regex, " normalizednumber ");
+        return applyNormalizationTemplate(text, regex, " ");
     }
 
     /**
@@ -45,7 +47,8 @@ public class TextCleaner {
      */
     private static String normalizeURL(String text) {
         String regex = "\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
-        return applyNormalizationTemplate(text, regex, " normalizedurl ");
+        //return applyNormalizationTemplate(text, regex, " normalizedurl ");
+        return applyNormalizationTemplate(text, regex, " ");
     }
 
     private static String removeNotLetters(String text) {
@@ -54,8 +57,10 @@ public class TextCleaner {
 
     private static String normalizeNoise(String text) {
         text = text.replaceAll("([a-z])\\1\\1+", "$1");
-        text = text.replaceAll("@\\S+", " username ");
-        text = text.replaceAll("#\\S+", " hashtag ");
+       // text = text.replaceAll("@\\S+", " username ");
+        text = text.replaceAll("@\\S+", " ");
+        //text = text.replaceAll("#\\S+", " hashtag ");
+        text = text.replaceAll("#\\S+", " ");
         return text;
     }
 

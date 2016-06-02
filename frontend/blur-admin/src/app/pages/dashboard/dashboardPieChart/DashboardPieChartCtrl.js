@@ -12,24 +12,19 @@
   function DashboardPieChartCtrl($scope, $element, $window, $timeout) {
     $scope.charts = [{
       color: 'rgba(255,255,255,0.4)',
-      description: 'New Visits',
-      stats: '57,820',
-      icon: 'person',
+      description: 'Fast Search',
+      link: 'fastsearch',
+      icon: 'ion-android-search'
     }, {
       color: 'rgba(255,255,255,0.4)',
-      description: 'Purchases',
-      stats: '$ 89,745',
-      icon: 'money',
+      description: 'Research',
+      link: 'research',
+      icon: 'ion-clock'
     }, {
       color: 'rgba(255,255,255,0.4)',
-      description: 'Active Users',
-      stats: '178,391',
-      icon: 'face',
-    }, {
-      color: 'rgba(255,255,255,0.4)',
-      description: 'Returned',
-      stats: '32,592',
-      icon: 'refresh',
+      description: 'Geo Search',
+      link: 'geosearch',
+      icon: 'ion-ios-location-outline'
     }
     ];
 

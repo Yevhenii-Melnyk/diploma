@@ -11,8 +11,8 @@
     /** @ngInject */
     function routeConfig($stateProvider) {
         $stateProvider
-            .state('maps', {
-                url: '/maps',
+            .state('geosearch', {
+                url: '/geosearch',
                 templateUrl: 'app/pages/maps/map-bubbles/map-bubbles.html',
                 controller: 'MapBubblePageCtrl',
                 title: 'Geo Search',

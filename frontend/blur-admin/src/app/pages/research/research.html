@@ -9,6 +9,12 @@
             </div>
             <div class="form-group">
                 <button class="btn btn-lg btn-primary" data-ng-click="search()">Search</button>
+                <div class="checkbox" style="float:right;">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" checked>
+                        <span>Public research</span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -16,26 +22,37 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div ba-panel ba-panel-title="Trend" ba-panel-class="with-scroll">
-            <div line-chart
-                 line-data='lineData'
-                 line-xkey='y'
-                 line-ykeys='["a", "b"]'
-                 line-labels='["Serie A", "Serie B"]'
-                 line-colors='colors'>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div ba-panel ba-panel-title="Line" ba-panel-class="with-scroll ">
-
-
+        <div ba-panel ba-panel-title="Timeline" ba-panel-class="with-scroll ">
             <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
                     chart-legend="true" chart-series="series"></canvas>
-
-
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="Tweet doughnut"
+             ba-panel-class="medium-panel traffic-panel" >
+            <canvas id="pie" class="chart chart-pie"
+                    chart-legend="true" chart-options="radarOptions" chart-data="radarData" chart-labels="radarLabels"
+                    chart-click="changeData">
+            </canvas>
+        </div>
+        <div ba-panel
+             ba-panel-title="Tweet radar"
+             ba-panel-class="medium-panel" ng-controller="chartJs2DCtrl">
+            <canvas id="radar" class="chart chart-radar"
+                    chart-legend="false" chart-series="series" chart-data="data" chart-labels="labels"
+                    chart-click="changeData">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12"
+         ba-panel
+         ba-panel-title="Feed"
+         ba-panel-class="large-panel with-scroll feed-panel">
+        <thumb-feed></thumb-feed>
+    </div>
+</div>
+

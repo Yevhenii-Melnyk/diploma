@@ -13,7 +13,7 @@
                 title: 'Fast search',
                 controller: 'fastSearchCtrl',
                 sidebarMeta: {
-                    icon: 'ion-android-home',
+                    icon: 'ion-android-search',
                     order: 0
                 }
             });

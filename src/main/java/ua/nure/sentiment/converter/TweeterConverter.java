@@ -40,11 +40,11 @@ public class TweeterConverter {
 
         setMedia(status, tweet);
         setLink(status, tweet);
-//        tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
-//        tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
-//        tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
+        tweet.setCoreSentiment(coreSentimentAnalysisService.detectSentiment(status.getText()));
+        tweet.setDictionarySentiment(dictionarySentimentService.detectSentiment(status.getText()));
+        tweet.setLogisticSentiment(sparkSentimentService.detectSentiment(status.getText()));
 
-        tweet.setSentiment(getSentiment());
+        //tweet.setSentiment(getSentiment());
         return tweet;
     }
 

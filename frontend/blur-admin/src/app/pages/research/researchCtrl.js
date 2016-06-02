@@ -48,24 +48,22 @@
                 date: "Jan 14"
             }
         ];
-        $scope.colors = [layoutColors.primary, layoutColors.warning, layoutColors.danger, layoutColors.info, layoutColors.success, layoutColors.default, layoutColors.primaryDark];
-        $scope.lineData = [
-            {y: "2006", a: 100, b: 90},
-            {y: "2007", a: 75, b: 65},
-            {y: "2008", a: 50, b: 40},
-            {y: "2009", a: 75, b: 65},
-            {y: "2010", a: 50, b: 40},
-            {y: "2011", a: 75, b: 65},
-            {y: "2012", a: 100, b: 90}
-        ];
 
         $scope.labels = ["May", "June", "Jule", "August", "September", "October", "November"];
-        $scope.series = ['Product A', 'Product B'];
+        $scope.series = ['Positive', 'Negative', 'Neutral'];
         $scope.data = [
             [65, 59, 90, 81, 56, 55, 40],
-            [28, 48, 40, 19, 88, 27, 45]
+            [28, 48, 40, 19, 88, 27, 45],
+            [11, 42, 44, 31, 25, 43, 11]
         ];
 
-    
+
+        $scope.radarLabels =["Positive", "Negative", "Neutral"];
+        $scope.radarData = [134, 55, 80];
+        $scope.radarOptions = {
+            segmentShowStroke : false
+        };
+
+
     }
 })();
