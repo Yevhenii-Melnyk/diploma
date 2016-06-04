@@ -72,7 +72,12 @@ public class TwitterFacade {
     public List<Tweet> getGeoTweets(List<String> tags, List<Country> locs, int count)
             throws ExecutionException, InterruptedException {
         return searchPool.submit(() -> twitterService.getTweetsByGeoLocation(tags, locs, count).entrySet().parallelStream()
-                .flatMap(entry -> entry.getValue().stream().map(status -> tweeterConverter.convert(status)))
+                .flatMap(entry -> entry.getValue().stream().map(status -> {
+                            Tweet tweet = tweeterConverter.convert(status);
+                            tweet.setCountry(entry.getKey());
+                            return tweet;
+                        }
+                ))
                 .collect(toList())).get();
     }
 
