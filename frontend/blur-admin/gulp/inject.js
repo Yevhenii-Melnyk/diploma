@@ -18,7 +18,8 @@ gulp.task('inject-reload', ['inject'], function () {
 gulp.task('inject', ['scripts', 'styles', 'injectAuth', 'inject404', 'copyVendorImages'], function () {
   var injectStyles = gulp.src([
     path.join(conf.paths.tmp, '/serve/app/main.css'),
-    path.join('!' + conf.paths.tmp, '/serve/app/vendor.css')
+    path.join('!' + conf.paths.tmp, '/serve/app/vendor.css'),
+    path.join(conf.paths.tmp, '/serve/app/auth.css')
   ], {read: false});
 
   var injectScripts = gulp.src([

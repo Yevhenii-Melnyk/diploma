@@ -11,7 +11,7 @@
                 <button class="btn btn-lg btn-primary" data-ng-click="search()">Search</button>
                 <div class="checkbox" style="float:right;">
                     <label class="custom-checkbox">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" ng-model="research.isPublic">
                         <span>Public research</span>
                     </label>
                 </div>
@@ -33,7 +33,7 @@
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div ba-panel
              ba-panel-title="Tweet doughnut"
-             ba-panel-class="medium-panel traffic-panel" >
+             ba-panel-class="medium-panel traffic-panel">
             <canvas id="pie" class="chart chart-pie"
                     chart-legend="true" chart-options="radarOptions" chart-data="radarData" chart-labels="radarLabels"
                     chart-click="changeData">

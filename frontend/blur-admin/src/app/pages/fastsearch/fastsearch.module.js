@@ -7,7 +7,7 @@
     /** @ngInject */
     function routeConfig($stateProvider) {
         $stateProvider
-            .state('fastsearch', {
+            .state('main.fastsearch', {
                 url: '/fastsearch',
                 templateUrl: 'app/pages/fastsearch/fastsearch.html',
                 title: 'Fast search',

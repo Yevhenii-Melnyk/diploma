@@ -1,5 +1,6 @@
 package ua.nure.sentiment.config;
 
+import com.github.scribejava.core.builder.ServiceBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +14,13 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 @Configuration
-@PropertySource("classpath:project.properties")
+@PropertySource("classpath:application.properties")
 public class TwitterConfig {
 
-    @Value("${consumer.key}")
+    @Value("${consumer.appId}")
     private String consumerKey;
 
-    @Value("${consumer.secret}")
+    @Value("${consumer.appSecret}")
     private String consumerSecret;
 
     @Value("${access.token}")
@@ -57,6 +58,14 @@ public class TwitterConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer getPropertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public ServiceBuilder twitterOauthService() {
+        return new ServiceBuilder()
+                .apiKey(consumerKey)
+                .apiSecret(consumerSecret);
+
     }
 
 }

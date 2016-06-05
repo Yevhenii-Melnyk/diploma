@@ -13,17 +13,17 @@
     $scope.charts = [{
       color: 'rgba(255,255,255,0.4)',
       description: 'Fast Search',
-      link: 'fastsearch',
+      link: 'main.fastsearch',
       icon: 'ion-android-search'
     }, {
       color: 'rgba(255,255,255,0.4)',
       description: 'Research',
-      link: 'research',
+      link: 'main.research',
       icon: 'ion-clock'
     }, {
       color: 'rgba(255,255,255,0.4)',
       description: 'Geo Search',
-      link: 'geosearch',
+      link: 'main.geosearch',
       icon: 'ion-ios-location-outline'
     }
     ];

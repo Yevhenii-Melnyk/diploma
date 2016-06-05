@@ -13,12 +13,19 @@
             'BlurAdmin.pages.dashboard',
             'BlurAdmin.pages.maps',
             'BlurAdmin.pages.fastsearch',
-            'BlurAdmin.pages.research'
+            'BlurAdmin.pages.research',
+            'BlurAdmin.pages.auth'
         ])
         .config(routeConfig);
 
     /** @ngInject */
-    function routeConfig($urlRouterProvider) {
+    function routeConfig($urlRouterProvider, $stateProvider) {
+        $stateProvider
+            .state('main', {
+                templateUrl: 'app/pages/main.html',
+                abstract: true
+            });
+
         $urlRouterProvider.otherwise('/dashboard');
     }
 

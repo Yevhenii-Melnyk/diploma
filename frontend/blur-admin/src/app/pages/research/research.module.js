@@ -7,7 +7,7 @@
     /** @ngInject */
     function routeConfig($stateProvider) {
         $stateProvider
-            .state('research', {
+            .state('main.research', {
                 url: '/research/:researchId',
                 params: {
                     researchId: Math.floor(Math.random() * 1000000000) + ""

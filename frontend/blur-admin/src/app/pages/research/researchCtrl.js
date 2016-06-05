@@ -8,6 +8,11 @@
     function researchCtrl($scope, sentimentService, $stateParams, $stomp, layoutColors) {
         var researchId = $stateParams.researchId;
         var subscription;
+
+        $scope.research = {
+            isPublic: true
+        };
+
         sentimentService.researchData(researchId)
             .then(function (success) {
                 console.log(success);
@@ -20,7 +25,7 @@
 
         $scope.search = function () {
             var tags = $("#search-tags-input").tagsinput("items");
-            sentimentService.startResearch(tags, researchId).then(function (success) {
+            sentimentService.startResearch(tags, researchId, $scope.research.isPublic).then(function (success) {
                 console.log(success)
             });
         };
@@ -31,23 +36,7 @@
             }
         });
 
-        $scope.tweets = [
-            {
-                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum" +
-                "aut hic quasi" +
-                "placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui" +
-                "ut.",
-                name: "asdfasdfasdf",
-                date: "Jan 14"
-            }, {
-                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum" +
-                "aut hic quasi" +
-                "placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui" +
-                "ut.",
-                name: "asdfasdfasdf",
-                date: "Jan 14"
-            }
-        ];
+
 
         $scope.labels = ["May", "June", "Jule", "August", "September", "October", "November"];
         $scope.series = ['Positive', 'Negative', 'Neutral'];
@@ -58,10 +47,10 @@
         ];
 
 
-        $scope.radarLabels =["Positive", "Negative", "Neutral"];
+        $scope.radarLabels = ["Positive", "Negative", "Neutral"];
         $scope.radarData = [134, 55, 80];
         $scope.radarOptions = {
-            segmentShowStroke : false
+            segmentShowStroke: false
         };
 
 

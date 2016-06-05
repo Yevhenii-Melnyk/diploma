@@ -8,7 +8,7 @@
             <div class="message-header">
                 <span class="author">{{ ::message.author }} {{ ::message.surname}}</span>
             </div>
-            <div class="message-content line-clamp" ng-class="{'line-clamp-2' : !message.expanded}">
+            <div class="message-content line-clamp" >
                 <span ng-if="message.preview">{{message.header}} </span>{{::message.text}}
             </div>
             <div class="preview" ng-show="message.expanded" ng-if="message.img">
