@@ -21,9 +21,21 @@ public class ResearchController {
 
     @RequestMapping(value = "startResearch", method = RequestMethod.GET)
     public Research startResearch(@RequestParam(name = "tags") List<String> tags,
-                                  @RequestParam("researchId") String researchId) {
-        researchService.doResearch(tags, researchId);
+                                  @RequestParam("researchId") String researchId,
+                                  @RequestParam("userName") String userName,
+                                  @RequestParam(value = "isPublic", required = false, defaultValue = "true") Boolean isPublic) {
+        researchService.doResearch(tags, researchId, userName, isPublic);
         return researchService.getTweets(researchId);
+    }
+
+    @RequestMapping(value = "publicResearches", method = RequestMethod.GET)
+    public List<Research> getPublicResearches() {
+        return researchService.getPublicResearches();
+    }
+
+    @RequestMapping(value = "researchByUsername", method = RequestMethod.GET)
+    public List<Research> researchByUsername(@RequestParam(name = "username") String userName) {
+        return researchService.getResearchByUserName(userName);
     }
 
 }

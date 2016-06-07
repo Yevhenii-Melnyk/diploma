@@ -1,5 +1,5 @@
 <div class="feed-messages-container" track-width="smallContainerWidth" min-width="360">
-    <div class="feed-message" ng-repeat="message in feed" ng-click="expandMessage(message)">
+    <div class="feed-message" ng-repeat="message in feed track by message.link" ng-click="expandMessage(message)">
         <div class="message-icon">
             <span class="sub-photo-icon" ng-class="::message.type"></span>
         </div>

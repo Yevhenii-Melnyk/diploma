@@ -1,11 +1,15 @@
 package ua.nure.sentiment.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 
 public class TextCleaner {
@@ -57,15 +61,21 @@ public class TextCleaner {
 
     private static String normalizeNoise(String text) {
         text = text.replaceAll("([a-z])\\1\\1+", "$1");
-       // text = text.replaceAll("@\\S+", " username ");
+        // text = text.replaceAll("@\\S+", " username ");
         text = text.replaceAll("@\\S+", " ");
         //text = text.replaceAll("#\\S+", " hashtag ");
         text = text.replaceAll("#\\S+", " ");
         return text;
     }
 
+    public static List<String> nGram(List<String> words, int n) {
+        return IntStream.range(0, words.size() - n + 1)
+                .mapToObj(i -> new ArrayList<>(words.subList(i, i + n)).stream().collect(joining(" ")))
+                .collect(toList());
+    }
+
     public static String[] cleanTweet(String text) {
-        return Optional.of(text.toLowerCase())
+        String[] split = Optional.of(text.toLowerCase())
                 .map(ShortFormNormalizer::normalizeText)
                 .map(TextCleaner::normalizeNoise)
                 .map(SentimentNormalizer::normalizeText)
@@ -75,10 +85,15 @@ public class TextCleaner {
                 .map(TextCleaner::removeNotLetters)
                 .get().trim()
                 .split("\\s+");
+        System.out.println(Arrays.toString(split));
+        return split;
     }
 
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(cleanTweet("This is really awesome imagination")));
+    public static List<String> tweetToTokens(String text) {
+        List<String> uniGrams = Arrays.asList(cleanTweet(text));
+        List<String> biGrams = nGram(uniGrams, 2);
+        biGrams.addAll(uniGrams);
+        return biGrams;
     }
 
 

@@ -16,6 +16,7 @@ var app = angular.module('BlurAdmin', [
         'ngLoadingSpinner',
         'ngStomp',
         'satellizer',
+        '720kb.socialshare',
 
         'BlurAdmin.theme',
         'BlurAdmin.pages',

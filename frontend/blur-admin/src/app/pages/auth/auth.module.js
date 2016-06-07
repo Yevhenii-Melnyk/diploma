@@ -17,6 +17,11 @@
                 templateUrl: 'app/pages/auth/login.html',
                 controller: "loginCtrl"
             })
+            .state('register', {
+                url: '/register',
+                title: 'Register',
+                templateUrl: 'app/pages/auth/register.html',
+            })
             .state('logout', {
                 url: '/logout',
                 title: 'logout',

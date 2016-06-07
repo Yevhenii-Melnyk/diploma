@@ -62,17 +62,21 @@
             $scope.$apply();
         });
 
-        $scope.$on('researchEvent', function (event, tweet) {
-            $scope.feed.push({
-                type: getType(tweet.sentiment),
-                author: tweet.userName,
-                text: tweet.text,
-                header: getHeader(tweet.text),
-                time: tweet.createdAt,
-                img: tweet.mediaUrl,
-                link: tweet.link,
-                expanded: true
+        $scope.$on('researchEventTweets', function (event, tweets) {
+            $scope.feed = [];
+            tweets.forEach(function (tweet) {
+                $scope.feed.push({
+                    type: getType(tweet.sentiment),
+                    author: tweet.userName,
+                    text: tweet.text,
+                    header: getHeader(tweet.text),
+                    time: tweet.createdAt,
+                    img: tweet.mediaUrl,
+                    link: tweet.link,
+                    expanded: true
+                });
             });
+            $scope.$apply();
         });
     }
 })();

@@ -53,8 +53,9 @@ public class SparkSentimentService {
                 DataTypes.createStructField("text", DataTypes.StringType, true)
         }));
         testData = testData.withColumn("uniBiGram", callUDF("tweetToTokens", col("text")));
-        Double prediction = (Double) logisticModel.transform(testData).select("prediction").first().get(0);
-
+        DataFrame transform = logisticModel.transform(testData);
+        transform.show(false);
+        Double prediction = (Double) transform.select("prediction").first().get(0);
         return Sentiment.convert(prediction.intValue());
     }
 
@@ -69,7 +70,7 @@ public class SparkSentimentService {
     }
 
     private static void registerTweetToTokensFunction(SQLContext sqlContext) {
-        UDF1<String, String[]> cleanReviewFunction = (UDF1<String, String[]>) TextCleaner::cleanTweet;
+        UDF1<String, List<String>> cleanReviewFunction = (UDF1<String, List<String>>) TextCleaner::tweetToTokens;
         ArrayType stringArray = DataTypes.createArrayType(DataTypes.StringType);
         sqlContext.udf().register("tweetToTokens", cleanReviewFunction, stringArray);
     }

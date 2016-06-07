@@ -18,8 +18,16 @@ public class DateUtil {
 
     public static String weekBefore() {
         Calendar c = Calendar.getInstance();
-
+        c.setTime(new Date());
+        c.add(Calendar.DAY_OF_MONTH, -7);
         return SIMPLE_DATE_FORMAT.format(c.getTime());
+    }
+
+    public static Date dayBefore(int n) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DAY_OF_MONTH, -n);
+        return c.getTime();
     }
 
     public static List<String> week() {

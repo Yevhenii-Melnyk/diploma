@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import twitter4j.TwitterException;
+import ua.nure.sentiment.entity.Sentiment;
+import ua.nure.sentiment.service.CoreSentimentAnalysisService;
+import ua.nure.sentiment.service.DictionarySentimentService;
+import ua.nure.sentiment.service.SparkSentimentService;
 
 @SpringBootApplication
 @EnableAsync

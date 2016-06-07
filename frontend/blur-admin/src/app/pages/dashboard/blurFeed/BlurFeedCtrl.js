@@ -4,79 +4,31 @@
     angular.module('BlurAdmin.pages.dashboard')
         .controller('BlurFeedCtrl', BlurFeedCtrl);
 
-    function BlurFeedCtrl($scope) {
-        $scope.feed = [
-            {
-                type: 'text-message',
-                author: 'Kostya',
-                surname: 'Danovsky',
-                header: 'Posted new message',
-                text: 'Guys, check this out: \nA police officer found a perfect hiding place for watching for speeding motorists. One day, the officer was amazed when everyone was under the speed limit, so he investigated and found the problem. A 10 years old boy was standing on the side of the road with a huge hand painted sign which said "Radar Trap Ahead." A little more investigative work led the officer to the boy\'s accomplice: another boy about 100 yards beyond the radar trap with a sign reading "TIPS" and a bucket at his feet full of change.',
-                time: 'Today 11:55 pm',
-                ago: '25 minutes ago',
-                expanded: false,
-                tags: ["Cats", "Dogs", "Cute"]
-            }, {
-                type: 'video-message',
-                author: 'Andrey',
-                surname: 'Hrabouski',
-                header: 'Added new video',
-                text: '"Vader and Me"',
-                preview: 'app/feed/vader-and-me-preview.png',
-                link: 'https://www.youtube.com/watch?v=IfcpzBbbamk',
-                time: 'Today 9:30 pm',
-                ago: '3 hrs ago',
-                expanded: false,
-                tags: ["Ukraine"]
-            }, {
-                type: 'image-message',
-                author: 'Vlad',
-                surname: 'Lugovsky',
-                header: 'Added new image',
-                text: '"My little kitten"',
-                preview: 'app/feed/my-little-kitten.png',
-                link: 'http://api.ning.com/files/DtcI2O2Ry7A7VhVxeiWfGU9WkHcMy4WSTWZ79oxJq*h0iXvVGndfD7CIYy-Ax-UAFCBCdqXI4GCBw3FOLKTTjQc*2cmpdOXJ/1082127884.jpeg',
-                time: 'Today 2:20 pm',
-                ago: '10 hrs ago',
-                expanded: false,
-                tags: ["Warcraft", "movie", "impression", "awesome"]
-            }, {
-                type: 'text-message',
-                author: 'Nasta',
-                surname: 'Linnie',
-                header: 'Posted new message',
-                text: 'Haha lol',
-                time: '11.05.2016',
-                ago: '2 days ago',
-                expanded: false,
-                tags: ["cinema", "theatre", "weekend"]
-            }, {
-                type: 'geo-message',
-                author: 'Nick',
-                surname: 'Cat',
-                header: 'Posted location',
-                text: '"New York, USA"',
-                preview: 'app/feed/new-york-location.png',
-                link: 'https://www.google.by/maps/place/New+York,+NY,+USA/@40.7201111,-73.9893872,14z',
-                time: '11.05.2016',
-                ago: '2 days ago',
-                expanded: false,
-                tags: ["birds", "fauna", "flora"]
-            }, {
-                type: 'text-message',
-                author: 'Vlad',
-                surname: 'Lugovsky',
-                header: 'Posted new message',
-                text: "First snake: I hope I'm not poisonous. Second snake: Why? First snake: Because I bit my lip!",
-                time: '12.05.2016',
-                ago: '3 days ago',
-                expanded: false,
-                tags: ["sun", "sea"]
-            }
-        ];
+    function BlurFeedCtrl($scope, sentimentService, $state) {
+        $scope.feed = [];
 
-        $scope.expandMessage = function (message) {
-            //message.expanded = !message.expanded;
+        var setFeed = function (response) {
+            var researches = response.data;
+            researches.forEach(function (research) {
+                $scope.feed.push({
+                    type: 'text-message',
+                    author: research.userName,
+                    time: research.createdAt,
+                    expanded: false,
+                    tags: research.tags,
+                    id: research.id
+                });
+            });
+        };
+
+        if ($scope.public == "true") {
+            sentimentService.getPublicResearches().then(setFeed);
+        } else {
+            sentimentService.getUserResearches(setFeed);
+        }
+
+        $scope.expandMessage = function (research) {
+            $state.go('main.research', {researchId: research.id})
         }
     }
 })();
