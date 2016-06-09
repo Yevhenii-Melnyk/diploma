@@ -1,0 +1,14 @@
+<div class="row pie-charts">
+    <div class="pie-chart-item-container" ng-repeat="chart in charts">
+        <a ui-sref="{{ ::chart.link}}">
+            <div ba-panel>
+                <div class="pie-chart-item">
+                    <div class="description" style="font-size: 30px;">
+                        <i class="{{ ::chart.icon }}"></i>
+                        <span>{{ ::chart.description }}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

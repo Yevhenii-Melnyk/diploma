@@ -1,0 +1,87 @@
+<div class="row" ng-show="!researchData">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="Search criteria"
+             ba-panel-class="with-scroll">
+            <div class="form-group">
+                <input type="text" tag-input="primary" data-role="tagsinput"
+                       placeholder="Add Tag" id="search-tags-input">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary" data-ng-click="search()">Search</button>
+                <div class="checkbox" style="float:right;">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" ng-model="research.isPublic">
+                        <span>Public research</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="researchData">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="{{researchData.userName}}'s research"
+             ba-panel-class="with-scroll">
+
+            <div class="form-group">
+                <span class="label label-warning" ng-repeat="tag in researchData.tags"
+                      style="font-size:18px;margin-right: 3px;border-radius: .25em;">
+                    {{ ::tag}}
+                </span>
+
+                <div class="pull-right" style="margin-right: 30px;">
+                    <button class="btn btn-block btn-social btn-twitter"
+                            socialshare
+                            socialshare-provider="twitter"
+                            socialshare-hashtags="SentiApp"
+                            socialshare-via="twitter"
+                            socialshare-text="Check my awesome research!!!"
+                            socialshare-url="http://localhost:3000/#/research/{{researchData.id}}"
+                            socialshare-popup-height="500"
+                            socialshare-popup-width="400"
+                            socialshare-trigger="click">
+                        <i class="fa fa-twitter"></i> Share on Twitter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" >
+    <div class="col-md-12">
+        <div ba-panel ba-panel-title="Timeline" ba-panel-class="with-scroll">
+            <div
+                    line-chart
+                    line-data='lineData'
+                    line-xkey='date'
+                    line-ykeys='[ "positive","neutral", "negative"]'
+                    line-labels='[ "Positive","Neutral","Negative"]'
+                    line-colors='colors'>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="Tweet doughnut"
+             ba-panel-class="medium-panel traffic-panel">
+            <canvas id="pie" class="chart chart-pie"
+                    chart-legend="true" chart-options="radarOptions" chart-data="radarData" chart-labels="radarLabels"
+                    chart-click="changeData">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12"
+         ba-panel
+         ba-panel-title="Feed"
+         ba-panel-class="large-panel with-scroll feed-panel">
+        <thumb-feed></thumb-feed>
+    </div>
+</div>
+

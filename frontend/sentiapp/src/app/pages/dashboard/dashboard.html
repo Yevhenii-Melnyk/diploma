@@ -1,0 +1,22 @@
+<dashboard-pie-chart></dashboard-pie-chart>
+
+<div class="row">
+    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+         ba-panel
+         ba-panel-title="Public researches"
+         ba-panel-class="large-panel with-scroll feed-panel">
+        <blur-feed public="true"></blur-feed>
+    </div>
+    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+         ba-panel
+         ba-panel-title="Your researches"
+         ba-panel-class="with-scroll feed-panel" style="text-align: center;" ng-show="!isAuthenticated()">
+        <a class="btn btn-default btn-auth" ui-sref="login">Log in to see your researches</a>
+    </div>
+    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+         ba-panel
+         ba-panel-title="My researches"
+         ba-panel-class="large-panel with-scroll feed-panel" ng-show="isAuthenticated()">
+        <blur-feed public="false"></blur-feed>
+    </div>
+</div>

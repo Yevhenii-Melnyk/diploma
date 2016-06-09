@@ -1,0 +1,13 @@
+@import 'theme/conf/mixins';
+@import 'theme/conf/colorScheme';
+@import 'theme/conf/variables';
+
+#overlay {
+  background-color: black;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5; /* also -moz-opacity, etc. */
+}

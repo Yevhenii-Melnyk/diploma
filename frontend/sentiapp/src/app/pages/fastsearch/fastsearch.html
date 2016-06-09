@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="Search criteria"
+             ba-panel-class="with-scroll">
+            <div class="form-group">
+                <input type="text" tag-input="primary" data-role="tagsinput"
+                       placeholder="Add Tag" id="search-tags-input">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary" data-ng-click="search()">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="searchPerformed">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div ba-panel
+             ba-panel-title="Tweet doughnut"
+             ba-panel-class="medium-panel traffic-panel">
+            <tweet-chart></tweet-chart>
+        </div>
+        <div ba-panel
+             ba-panel-title="Tweet radar"
+             ba-panel-class="medium-panel">
+            <radar-chart></radar-chart>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12"
+         ba-panel
+         ba-panel-title="Feed"
+         ba-panel-class="large-panel with-scroll feed-panel">
+        <thumb-feed></thumb-feed>
+    </div>
+</div>

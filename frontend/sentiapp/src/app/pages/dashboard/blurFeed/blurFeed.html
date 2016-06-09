@@ -1,0 +1,23 @@
+<div class="feed-messages-container" track-width="smallContainerWidth" min-width="360">
+    <div class="feed-message" ng-repeat="message in feed" ng-click="expandMessage(message)">
+        <div class="text-block text-message" style="margin:0;max-width:100%;">
+            <div class="message-header">
+                <span class="author" style="font-size: 16px;">{{ ::message.author }} {{ ::message.surname}}</span>
+            </div>
+            <div class="message-content line-clamp" style="line-height: 26px;">
+                <span class="label label-warning" ng-repeat="tag in message.tags"
+                      style="font-size:13px;margin-right: 3px;border-radius: .25em;">
+                    {{ ::tag}}
+                </span>
+            </div>
+            <div class="message-time">
+                <div class="post-time">
+                    {{::message.time | date:'dd.MM.yyyy HH:mm:ss'}}
+                </div>
+                <div class="ago-time">
+                    {{::message.ago}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
