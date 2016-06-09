@@ -54,7 +54,6 @@ public class SparkSentimentService {
         }));
         testData = testData.withColumn("uniBiGram", callUDF("tweetToTokens", col("text")));
         DataFrame transform = logisticModel.transform(testData);
-        transform.show(false);
         Double prediction = (Double) transform.select("prediction").first().get(0);
         return Sentiment.convert(prediction.intValue());
     }

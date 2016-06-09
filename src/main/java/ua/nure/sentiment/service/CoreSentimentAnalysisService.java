@@ -58,9 +58,9 @@ public class CoreSentimentAnalysisService {
         double weightedSentiment = weightedSentiments.stream().mapToDouble(Integer::doubleValue).sum() /
                 sizes.stream().mapToInt(Integer::intValue).sum();
 
-        System.out.println(averageSentiment);
-        System.out.println(weightedSentiment);
-        System.out.println(mainSentiment);
+//        System.out.println(averageSentiment);
+//        System.out.println(weightedSentiment);
+//        System.out.println(mainSentiment);
 
         Sentiment result = Sentiment.NEUTRAL;
         if (weightedSentiment > 2)
