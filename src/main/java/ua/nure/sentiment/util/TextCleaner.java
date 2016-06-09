@@ -85,7 +85,6 @@ public class TextCleaner {
                 .map(TextCleaner::removeNotLetters)
                 .get().trim()
                 .split("\\s+");
-        System.out.println(Arrays.toString(split));
         return split;
     }
 

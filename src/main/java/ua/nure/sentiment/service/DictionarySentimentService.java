@@ -18,7 +18,6 @@ public class DictionarySentimentService {
         int sum = 0;
         for (String word : words) {
             sum += dictionary.getDictionary().getOrDefault(word, 0);
-            System.out.println(word + " : " + dictionary.getDictionary().getOrDefault(word, 0));
         }
         return Sentiment.convert(sum);
     }
